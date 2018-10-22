@@ -9,9 +9,7 @@ var currentPlugin = 0;
 bot.commands = new Discord.Collection();
 
 fs.readdir("./plugins", (err, file) => {
-
   if (err) console.log(err);
-
   let jsfile = file.filter(f => f.split(".").pop() === "js");
   if(jsfile.length <= 0){
     console.log("Не было найдено ни одного плагина.");
@@ -27,33 +25,31 @@ fs.readdir("./plugins", (err, file) => {
   });
 });
 
-bot.on("message", message=>{
-  if (message.author == bot.user) return;
-  let prefix = config.prefix;
-  let messageArray = message.content.split(" ");
-  let cmd = messageArray[0];
-  let args = messageArray.slice(1);
-
-  let commandfile = bot.commands.get(cmd.slice(prefix.length));
-  if (commandfile) commandfile.run(bot, message, args, pluginList, commandList, messageArray);
-});
-
 bot.on("ready", () => {
-  bot.user.setActivity(`Запущено ${bot.guilds.size} серверов.`);
+  bot.user.setActivity(`InfBot 2.0 | префикс - ${config.prefix}`);
   console.log("Bot is ready!");
 });
 
 bot.on("guildMemberAdd", member => {
-  bot.channels.get("498406144989986828").send(`Добро пожаловать на сервер, <@${member.user.id}>!`);
+  bot.channels.get("498406144989986828").send(`Добро пожаловать на сервер, <@${member.member.user.id}>!`);
 });
 
 bot.on("guildMemberRemove", member => {
-  bot.channels.get("498406144989986828").send(`${member.user.tag} вышел с сервера.`);
+  bot.channels.get("498406144989986828").send(`${member.member.user.tag} вышел с сервера.`);
 });
 
 bot.on("noPerms", message => {
   message.channel.send(`Мало прав для использования команды, <@${message.author.id}>!`);
 });
 
+bot.on("message", message=>{
+  if (message.author == bot.user) return;
+  let prefix = config.prefix;
+  let messageArray = message.content.split(" ");
+  let cmd = messageArray[0];
+  let args = messageArray.slice(1).join(" ");
+  let commandfile = bot.commands.get(cmd.slice(prefix.length));
+  if (commandfile) commandfile.run(bot, message, args, pluginList, commandList, messageArray);
+});
 
 bot.login(config.token);
