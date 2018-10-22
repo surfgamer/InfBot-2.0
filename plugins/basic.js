@@ -24,7 +24,11 @@ module.exports.run = async (bot, message, args, pluginList, commandList, message
     }
     }else{
       let embed = new Discord.RichEmbed()
+<<<<<<< HEAD
       .setTitle(`Плагин Basic не нашел этой функции!\nДоступные функции:\n\nembed - отправляет сообщение в блоке (.basic embed)\nhelp - отображает все доступные команды (.basic help)\nplugins - отображает список плагинов (.basic plugins)`)
+=======
+      .setTitle(`Плагин Basic не нашел этой функции!\nДоступные функции:\n\nembed - отправляет сообщение в блоке (.basic embed)\nhelp - отображает все доступные команды (.basic help)`)
+>>>>>>> 2da1c8a26cc7c2ed0af9f9ba4c3f3a6faf0d3790
       .setAuthor(message.author.username, message.author.avatarURL)
       .setColor(0x00AE86);
       message.channel.send({embed});
